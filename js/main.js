@@ -115,7 +115,7 @@ const displayVideos = (videos)=>{
       ${video.authors[0].verified==true?' <img src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png" class="w-5" />' :""}
      
      </div>
-        <p> ${video.others.views}</P>
+        <p> ${video.others.views} Views</P>
     </div>
 
   </div>
