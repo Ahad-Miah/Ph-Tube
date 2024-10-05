@@ -8,10 +8,24 @@ fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
 
 }
 
+const removeActiveClass= ()=>{
+    const buttons= document.getElementsByClassName('category-btn');
+   
+    for(const button of buttons){
+        button.classList.remove('bg-red-600');
+        button.classList.remove('text-white');
+    }
+}
 const loadCategoryVideos= (id)=>{
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
     .then(res =>res.json())
-    .then(data =>displayVideos(data.category))
+    .then(data =>{
+        removeActiveClass();
+        const activeBtn=document.getElementById(`${id}`);
+        activeBtn.classList.add('bg-red-600');
+        activeBtn.classList.add('text-white');
+        displayVideos(data.category)
+    })
     .catch(error=>console.log(error));
 }
 
@@ -24,7 +38,7 @@ const displayCategories =(data) =>{
 
         const buttonContainer =document.createElement("div");
         buttonContainer.innerHTML=`
-        <button onclick="loadCategoryVideos(${item.category_id})" class="btn">${item.category}</button>
+        <button id="${item.category_id}" onclick="loadCategoryVideos(${item.category_id})" class="btn category-btn">${item.category}</button>
         `;
 
 
@@ -43,9 +57,24 @@ const getVideos =()=>{
 const displayVideos = (videos)=>{
     const videoContainer = document.getElementById('video-container');
     videoContainer.innerHTML="";
-    videos.forEach((video) =>{
-        console.log(video);
 
+    if(videos.length==0){
+        videoContainer.classList.remove("grid");
+        videoContainer.innerHTML=  `
+        <div class="min-h-[300px] flex flex-col gap-5 justify-center items-center">
+
+        <img src="./assets/Icon.png"  />
+
+        <p class="font-bold text-gray-500 text-2xl">No Contents Here</p>
+        
+        </div>
+        `
+        return;
+    }
+    else{
+        videoContainer.classList.add("grid");
+    }
+    videos.forEach((video) =>{
         const card=document.createElement('div');
         card.classList= "card "
         card.innerHTML = `
