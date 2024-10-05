@@ -47,8 +47,8 @@ const displayCategories =(data) =>{
     })
 }
 
-const getVideos =()=>{
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const getVideos =(searchText ="")=>{
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
     .then( res => res.json())
     .then( data =>displayVideos(data.videos))
     .catch(error =>console.log(error));
@@ -130,11 +130,8 @@ const displayVideos = (videos)=>{
 
 }
 
-
-
-
-
-
-
+document.getElementById('search').addEventListener("keyup",function(event){
+    getVideos(event.target.value);
+})
 getCategories();
 getVideos();
